@@ -18,12 +18,14 @@ app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors({ origin: "*" }));
-app.use(express.static(path.join(path.resolve(__dirname), "public", "uploads")));
-
+app.use(
+  express.static(path.join(path.resolve(__dirname), "public", "uploads"))
+);
 mongoose
+
   .connect(process.env.MONGO_URL)
   .then(console.log("Connected to MongoDB"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.log(err.message));
 app.use("/backend/auth", authRoute);
 app.use("/backend/users", userRoute);
 app.use("/backend/posts", postRoute);
